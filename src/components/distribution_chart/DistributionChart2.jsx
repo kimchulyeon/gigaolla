@@ -13,15 +13,7 @@ import { Line } from 'react-chartjs-2'
 import { useParams } from 'react-router-dom'
 import { getLastMonth } from '../../utils/getLastMonth'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 // OPTION
 const options = {
@@ -38,9 +30,6 @@ const options = {
           padding: 10,
         },
       },
-    },
-    tooltop: {
-      backgroundColor: '#5D5FEF',
     },
   },
   scales: {
@@ -73,6 +62,7 @@ const DistributionChart = () => {
   const CLASS = params.number
 
   const { thisYear, lastMonth } = getLastMonth()
+  console.log(SERIES, CLASS)
 
   const [fireSubjectData, setFireSubjectData] = useState([])
   const [fireAdminSubjectData, setFireAdminSubjectData] = useState([])
@@ -96,7 +86,8 @@ const DistributionChart = () => {
         setFireSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -113,7 +104,8 @@ const DistributionChart = () => {
         setFireAdminSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -130,7 +122,8 @@ const DistributionChart = () => {
         setFireLawSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -147,7 +140,8 @@ const DistributionChart = () => {
         setFireEngSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -164,7 +158,7 @@ const DistributionChart = () => {
         setFireHistorySubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
 
   //리턴..
   return (

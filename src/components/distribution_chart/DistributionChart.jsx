@@ -15,15 +15,7 @@ import { getLastMonth } from '../../utils/getLastMonth'
 
 // var qs = require('qs')
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 // OPTION
 const options = {
@@ -66,12 +58,12 @@ const options = {
 
 // LABEL
 const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
-const SUBJECTS_MAP = {
-  // 각 과별로 가지고 있는 과목의 종류를 보관하는 전역 변수입니다.
-  경찰: ['경찰학', '형사법', '헌법'],
-  소방: ['소방학개론', '소방행정법', '소방관계법규', '소방영어', '소방한국사'],
-  행정: ['행정학', '행정법', '국어', '한국사', '영어'],
-}
+// const SUBJECTS_MAP = {
+//   // 각 과별로 가지고 있는 과목의 종류를 보관하는 전역 변수입니다.
+//   경찰: ['경찰학', '형사법', '헌법'],
+//   소방: ['소방학개론', '소방행정법', '소방관계법규', '소방영어', '소방한국사'],
+//   행정: ['행정학', '행정법', '국어', '한국사', '영어'],
+// }
 
 //컴포..
 const DistributionChart = ({ distributionTotal }) => {
@@ -79,8 +71,8 @@ const DistributionChart = ({ distributionTotal }) => {
 
   const SERIES = params.subject // 경찰, 소방, 행정
   const CLASS = params.number // 1, 2, ...
-  const subjects = SUBJECTS_MAP[SERIES] // 해당하는 과의 과목 목록을 가져옵니다. SERIES = 경찰
-  const COLOR = ['#FBA869', '#42C366', '#70A6E8', '#FFDB5C', '#A293FF']
+  // const subjects = SUBJECTS_MAP[SERIES] // 해당하는 과의 과목 목록을 가져옵니다. SERIES = 경찰
+  // const COLOR = ['#FBA869', '#42C366', '#70A6E8', '#FFDB5C', '#A293FF']
 
   const { thisYear, lastMonth } = getLastMonth()
 
@@ -88,7 +80,7 @@ const DistributionChart = ({ distributionTotal }) => {
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
   const [lawSubjectData, setLawSubjectData] = useState([])
 
-  const [data, setData] = useState([])
+  // const [data, setData] = useState([])
 
   // useEffect(() => {
   //   ;(async () => {
@@ -133,7 +125,8 @@ const DistributionChart = ({ distributionTotal }) => {
         setPoliceSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -150,7 +143,8 @@ const DistributionChart = ({ distributionTotal }) => {
         setCriminalSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -167,7 +161,7 @@ const DistributionChart = ({ distributionTotal }) => {
         setLawSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
 
   // useEffect(() => {
   //   ;(async () => {

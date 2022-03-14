@@ -365,6 +365,7 @@ const StyledNavigation = styled.div`
   font-family: "Noto Sans KR", sans-serif;
   /* min-height: 100vh; */
   overflow-x: hidden;
+
   .container {
     position: relative;
     width: 100%;
