@@ -18,64 +18,35 @@ const DistributionChartWrap = ({ distributionTotal }) => {
 
   const { thisYear, lastMonth } = getLastMonth()
 
-  // return (
-  //   <Cont>
-  //     <CardTemplate
-  //       Element={DistributionChart}
-  //       Name="점수대별 인원"
-  //       year={thisYear}
-  //       month={lastMonth}
-  //       distributionTotal={distributionTotal}
-  //     />
-  //   </Cont>
-  // )
-  if (SUBJECT === '경찰') {
-    return (
-      <Cont>
-        <CardTemplate
-          Element={DistributionChart}
-          Name="점수대별 인원"
-          year={thisYear}
-          month={lastMonth}
-          distributionTotal={distributionTotal}
-        />
-      </Cont>
-    )
+  let CHART_COMPONENT
+
+  switch (SUBJECT) {
+    case '경찰':
+      CHART_COMPONENT = DistributionChart
+      break
+    case '소방':
+      CHART_COMPONENT = DistributionChart2
+      break
+    case '행정':
+      CHART_COMPONENT = DistributionChart3
+      break
+    default:
+      CHART_COMPONENT = DistributionChart
   }
 
-  if (SUBJECT === '소방') {
-    return (
-      <Cont>
-        <CardTemplate
-          Element={DistributionChart2}
-          Name="점수대별 인원"
-          year={thisYear}
-          month={lastMonth}
-          distributionTotal={distributionTotal}
-        />
-      </Cont>
-    )
-  }
-  if (SUBJECT === '행정') {
-    return (
-      <Cont>
-        <CardTemplate
-          Element={DistributionChart3}
-          Name="점수대별 인원"
-          year={thisYear}
-          month={lastMonth}
-          distributionTotal={distributionTotal}
-        />
-      </Cont>
-    )
-  }
-
-  // const Element = styled.div`
-  //   width: 90%;
-  //   height: 23em;
-  //   margin: 3em auto 0;
-  //   background: #ccc;
-  // `
+  return (
+    <Cont>
+      <CardTemplate
+        Element={CHART_COMPONENT}
+        Name="점수대별 인원"
+        year={thisYear + '-'}
+        month={lastMonth}
+        distributionTotal={distributionTotal}
+      />
+    </Cont>
+  )
 }
+
+// `
 
 export default DistributionChartWrap

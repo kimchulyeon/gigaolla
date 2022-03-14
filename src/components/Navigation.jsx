@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import NavigationCalender from "../components/NavigationCalendar";
 // icon link
 import logo from "../image/ollalogo.svg";
 import menu from "../image/menu_gray.svg";
@@ -13,10 +14,7 @@ import admin from "../image/admin_gray.svg";
 import adminColor from "../image/admin_color.svg";
 import checklist from "../image/checklist_gray.svg";
 import checklistColor from "../image/checklist_white.svg";
-import calendar from "../image/calendar.svg";
-// calender
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import cx from "clsx";
 
 // 서브 네비게이션
 // (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
@@ -26,15 +24,11 @@ function Navigation() {
     setOpenedSetion(job);
   };
   //직렬별 lnb menu className = "hidden" (display="none")
-  let policelnb = "lnbcontainer police hidden";
-  let firelnb = "lnbcontainer fire hidden";
-  let adminlnb = "lnbcontainer admin hidden";
+  // clsx classnames
+  // npm i clsx
   if (openedSection === "police") {
-    policelnb = "lnbcontainer police";
   } else if (openedSection === "fire") {
-    firelnb = "lnbcontainer fire";
   } else if (openedSection === "admin") {
-    adminlnb = "lnbcontainer admin";
   }
 
   // 클릭시 gnb background css 고정 className = "activeBg" 추가
@@ -83,18 +77,15 @@ function Navigation() {
     navicon += " checklisticon";
   }
 
-  // lnb menu click시 text color 변경 고정
-  const [clickTextColor, setClickTextColor] = useState("");
-  const onClicklnb = (textColor) => {
-    setClickTextColor(textColor);
-  };
-  let lnbtextColor = "lnbtext";
-  if (clickTextColor === "classnumber") {
-    lnbtextColor += " clickde_text";
-  }
-
-  // 일정관리 라이브러리
-  const [startDate, setStartDate] = useState(new Date());
+  // lnb menu click시 text color 변경
+  // const [clickTextColor, setClickTextColor] = useState("");
+  // const onClicklnb = (textColor) => {
+  //   setClickTextColor(textColor);
+  // };
+  // let lnbtextColor = "lnbtext";
+  // if (clickTextColor === "classnumber") {
+  //   lnbtextColor += " clickde_text";
+  // }
 
   return (
     <div>
@@ -163,7 +154,11 @@ function Navigation() {
                   <span className="policetext">경찰직</span>
                 </NavLink>
                 {/* 경찰 lnb */}
-                <div className={policelnb}>
+                <div
+                  className={cx("lnbcontainer police", {
+                    hidden: openedSection !== "police",
+                  })}
+                >
                   <ul className="lnb">
                     <li>
                       <NavLink
@@ -227,7 +222,11 @@ function Navigation() {
                   <span className="firetext">소방직</span>
                 </NavLink>
                 {/* 소방 lnb */}
-                <div className={firelnb}>
+                <div
+                  className={cx("lnbcontainer fire", {
+                    hidden: openedSection !== "fire",
+                  })}
+                >
                   <ul className="lnb">
                     <li>
                       <NavLink
@@ -286,7 +285,11 @@ function Navigation() {
                   <span className="admintext">행정직</span>
                 </NavLink>
                 {/* 행정 lnb */}
-                <div className={adminlnb}>
+                <div
+                  className={cx("lnbcontainer admin", {
+                    hidden: openedSection !== "admin",
+                  })}
+                >
                   <ul className="lnb">
                     <li>
                       <NavLink
@@ -323,7 +326,7 @@ function Navigation() {
               <NavLink
                 to="/"
                 className="link"
-                onClick={checklistmenu}
+                onClick={checklistmenu} // <NavigationCalendar navicon={navicon} />
                 onMouseOver={() => onMouseOver("checklistmenucolor")}
                 onMouseOut={() => onMouseOut("checklistmenucolor")}
               >
@@ -347,26 +350,8 @@ function Navigation() {
                   일정관리
                 </span>
               </NavLink>
+              <NavigationCalender />
             </div>
-            {/* 일정관리 끝 */}
-            {/* 달력 */}
-            <div className="calendarcontiner">
-              <img src={calendar} alt="menu" className={navicon} />
-              <DatePicker
-                className="datepicker"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-              />
-              <div className="todolist">
-                <p>
-                  <span className="time">08:00 AM</span>경찰직 모의고사
-                </p>
-                <p>
-                  <span className="time">10:30 AM</span>관리자 회의
-                </p>
-              </div>
-            </div>
-            {/* 달력 끝 */}
           </div>
         </div>
       </StyledNavigation>
@@ -412,25 +397,25 @@ const StyledNavigation = styled.div`
             background: #fff;
             border-top-left-radius: 30px;
             border-bottom-left-radius: 30px;
-          }
-          .menutext {
-            &:hover {
-              color: #5d5fef;
+            .menutext {
+              &:hover {
+                color: #5d5fef;
+              }
             }
-          }
-          .policetext {
-            &:hover {
-              color: #161aec;
+            .policetext {
+              &:hover {
+                color: #161aec;
+              }
             }
-          }
-          .firetext {
-            &:hover {
-              color: #fd4f3a;
+            .firetext {
+              &:hover {
+                color: #fd4f3a;
+              }
             }
-          }
-          .admintext {
-            &:hover {
-              color: #257e0e;
+            .admintext {
+              &:hover {
+                color: #257e0e;
+              }
             }
           }
           &:hover span::before {
@@ -599,48 +584,6 @@ const StyledNavigation = styled.div`
         }
         .white {
           color: #fff;
-        }
-      }
-    }
-    .calendarcontiner {
-      position: relative;
-      /* display: block; */
-      top: 30px;
-      left: 19px;
-      border-radius: solid 1px red;
-      .datepicker {
-        width: 220px;
-        height: 58px;
-        background: #f0f7ff;
-        border: none;
-        border-radius: 11px;
-        font-size: 20px;
-        text-align: center;
-        &:focus {
-          outline: none;
-        }
-      }
-      img {
-        position: absolute;
-        top: 14px;
-        left: 10px;
-        z-index: 1;
-      }
-      .todolist {
-        display: block;
-        width: 225px;
-        margin-top: 22px;
-        font-size: 16px;
-        color: #fff;
-        p {
-          margin-bottom: 17px;
-          font-weight: 500;
-          span {
-            font-size: 13px;
-            color: #dadada;
-            font-weight: 400;
-            margin: 0 15px 0 15px;
-          }
         }
       }
     }

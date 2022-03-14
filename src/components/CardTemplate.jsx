@@ -66,7 +66,8 @@ const CardTemplate = ({
           <DetailCount>{Count}</DetailCount>
           {Info}
           <Detail>
-            {year}-{month}
+            {year}
+            {month}
           </Detail>
         </DetailCont>
       </TitleCont>

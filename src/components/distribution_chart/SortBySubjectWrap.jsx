@@ -40,41 +40,47 @@ const SortBySubjectWrap = () => {
     소방: ['소방학개론', '소방행정법', '소방관계법규', '소방영어', '소방한국사'],
     행정: ['행정학', '행정법', '국어', '한국사', '영어'],
   }
+  return (
+    <Cont>
+      {/* {SUBJECTS_MAP[SUBJECT].map((subject) => {
+        return <SortBySubjectChart subject={subject} />
+      })} */}
+    </Cont>
+  )
+  // if (SUBJECT === '경찰') {
+  //   return (
+  //     <Cont>
+  //       {SUBJECTS_MAP[SUBJECT].map((subjects) => {
+  //         return <SortBySubjectChart subjects={subjects} />
+  //       })}
+  //     </Cont>
+  //   )
+  // }
 
-  if (SUBJECT === '경찰') {
-    return (
-      <Cont>
-        {SUBJECTS_MAP[SUBJECT].map((subjects) => {
-          return <SortBySubjectChart subjects={subjects} />
-        })}
-      </Cont>
-    )
-  }
-
-  if (SUBJECT === '소방') {
-    return (
-      <Cont>
-        <CardTemplate
-          Element={DistributionChart}
-          Name="점수대별 인원"
-          year={thisYear}
-          month={lastMonth}
-        />
-      </Cont>
-    )
-  }
-  if (SUBJECT === '행정') {
-    return (
-      <Cont>
-        <CardTemplate
-          Element={DistributionChart}
-          Name="점수대별 인원"
-          year={thisYear}
-          month={lastMonth}
-        />
-      </Cont>
-    )
-  }
+  // if (SUBJECT === '소방') {
+  //   return (
+  //     <Cont>
+  //       <CardTemplate
+  //         Element={DistributionChart}
+  //         Name="점수대별 인원"
+  //         year={thisYear}
+  //         month={lastMonth}
+  //       />
+  //     </Cont>
+  //   )
+  // }
+  // if (SUBJECT === '행정') {
+  //   return (
+  //     <Cont>
+  //       <CardTemplate
+  //         Element={DistributionChart}
+  //         Name="점수대별 인원"
+  //         year={thisYear}
+  //         month={lastMonth}
+  //       />
+  //     </Cont>
+  //   )
+  // }
 }
 
 export default SortBySubjectWrap
