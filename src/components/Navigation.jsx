@@ -10,7 +10,7 @@ import NavigationChecklist from "../components/NavigationChecklist";
 import logo from "../image/ollalogo.svg";
 import menu from "../image/menu_gray.svg";
 import menuColor from "../image/menu_color.svg";
-import cx from "clsx";
+import clsx from "clsx";
 
 function Navigation() {
   // 서브 네비게이션 (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
@@ -48,17 +48,11 @@ function Navigation() {
   const onMouseOut = (coloricon) => {
     sethoveredIcon(!coloricon);
   };
-  let navicon = "navicon";
   if (hoveredIcon === "allmenucolor") {
-    navicon += " allmenuicon";
   } else if (hoveredIcon === "policemenucolor") {
-    navicon += " policeicon";
   } else if (hoveredIcon === "firemenucolor") {
-    navicon += " fireicon";
   } else if (hoveredIcon === "adminmenucolor") {
-    navicon += " adminicon";
   } else if (hoveredIcon === "checklistmenucolor") {
-    navicon += " checklisticon";
   }
 
   // lnb menu click시 text color 변경
@@ -70,8 +64,18 @@ function Navigation() {
   } else if (clickTextColor === "Pclass1") {
   } else if (clickTextColor === "Pclass2") {
   } else if (clickTextColor === "Pclass3") {
+  } else if (clickTextColor === "Pclass5") {
   }
-
+  if (clickTextColor === "Fclass0") {
+  } else if (clickTextColor === "Fclass1") {
+  } else if (clickTextColor === "Fclass2") {
+  } else if (clickTextColor === "Fclass3") {
+  }
+  if (clickTextColor === "Aclass0") {
+  } else if (clickTextColor === "Aclass1") {
+  } else if (clickTextColor === "Aclass2") {
+  } else if (clickTextColor === "Aclass3") {
+  }
   return (
     <div>
       <StyledNavigation>
@@ -85,7 +89,7 @@ function Navigation() {
               <li className="gnb">
                 <NavLink
                   to="/"
-                  className={cx("link allmenu", {
+                  className={clsx("link allmenu", {
                     activeBg: fixBackground === "allmenu",
                   })}
                   onClick={() => {
@@ -106,7 +110,9 @@ function Navigation() {
                         : menu
                     }
                     alt="menu"
-                    className={navicon}
+                    className={clsx("navicon", {
+                      allmenuicon: hoveredIcon === "allmenucolor",
+                    })}
                   />
                   <span className="menutext">전체개요</span>
                 </NavLink>
@@ -117,7 +123,6 @@ function Navigation() {
                 <NavigationPolicemenu
                   fixBackground={fixBackground}
                   onClickShowFix={onClickShowFix}
-                  navicon={navicon}
                   onClickSection={onClickSection}
                   onMouseOver={onMouseOver}
                   onMouseOut={onMouseOut}
@@ -132,12 +137,13 @@ function Navigation() {
                 <NavigationFiremenu
                   fixBackground={fixBackground}
                   onClickShowFix={onClickShowFix}
-                  navicon={navicon}
                   onClickSection={onClickSection}
                   onMouseOver={onMouseOver}
                   onMouseOut={onMouseOut}
                   hoveredIcon={hoveredIcon}
                   openedSection={openedSection}
+                  onClicklnb={onClicklnb}
+                  clickTextColor={clickTextColor}
                 />
               </li>
               {/* 행정직렬 메뉴 */}
@@ -145,12 +151,13 @@ function Navigation() {
                 <NavigationAdminmenu
                   fixBackground={fixBackground}
                   onClickShowFix={onClickShowFix}
-                  navicon={navicon}
                   onClickSection={onClickSection}
                   onMouseOver={onMouseOver}
                   onMouseOut={onMouseOut}
                   hoveredIcon={hoveredIcon}
                   openedSection={openedSection}
+                  onClicklnb={onClicklnb}
+                  clickTextColor={clickTextColor}
                 />
               </li>
               <MidLine />
@@ -162,7 +169,6 @@ function Navigation() {
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
                 hoveredIcon={hoveredIcon}
-                navicon={navicon}
               />
               <NavigationCalender />
             </div>
@@ -339,10 +345,6 @@ const StyledNavigation = styled.div`
             font-size: 18px;
             text-decoration: none;
             color: #c7c7c7;
-            p:hover:nth-child(n + 2) {
-              font-weight: 700;
-              color: #fff;
-            }
             p {
               position: relative;
               display: block;

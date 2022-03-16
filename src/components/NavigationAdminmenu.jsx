@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import cx from "clsx";
+import clsx from "clsx";
 
 import admin from "../image/admin_gray.svg";
 import adminColor from "../image/admin_color.svg";
@@ -8,18 +8,19 @@ import adminColor from "../image/admin_color.svg";
 function NavigationAdminmenu({
   fixBackground,
   onClickShowFix,
-  navicon,
   onClickSection,
   onMouseOver,
   onMouseOut,
   hoveredIcon,
   openedSection,
+  onClicklnb,
+  clickTextColor,
 }) {
   return (
     <>
       <NavLink
         to="/행정"
-        className={cx("link admin", {
+        className={clsx("link admin", {
           activeBg: fixBackground === "adminmenu",
         })}
         onClick={() => {
@@ -40,13 +41,15 @@ function NavigationAdminmenu({
               : admin
           }
           alt="menu"
-          className={navicon}
+          className={clsx("navicon", {
+            adminicon: hoveredIcon === "adminmenucolor",
+          })}
         />
         <span className="admintext">행정직</span>
       </NavLink>
 
       <div
-        className={cx("lnbcontainer admin", {
+        className={clsx("lnbcontainer admin", {
           hidden: openedSection !== "admin",
         })}
       >
@@ -54,7 +57,7 @@ function NavigationAdminmenu({
           <li>
             <NavLink
               className={
-                cx("link admin", {
+                clsx("link admin", {
                   activeBg: fixBackground === "adminmenu",
                 })
                   ? "lnblink fontWhite"
@@ -66,18 +69,54 @@ function NavigationAdminmenu({
             </NavLink>
           </li>
           <li>
-            <NavLink className="lnblink" to="/행정/1">
-              <p>1반</p>
+            <NavLink
+              className="lnblink"
+              to="/행정/1"
+              onClick={() => {
+                onClicklnb("Aclass1");
+              }}
+            >
+              <p
+                className={clsx("lnbtext", {
+                  clickde_text: clickTextColor === "Aclass1",
+                })}
+              >
+                1반
+              </p>
             </NavLink>
           </li>
           <li>
-            <NavLink className="lnblink" to="/행정/2">
-              <p>2반</p>
+            <NavLink
+              className="lnblink"
+              to="/행정/2"
+              onClick={() => {
+                onClicklnb("Aclass2");
+              }}
+            >
+              <p
+                className={clsx("lnbtext", {
+                  clickde_text: clickTextColor === "Aclass2",
+                })}
+              >
+                2반
+              </p>
             </NavLink>
           </li>
           <li>
-            <NavLink className="lnblink" to="/행정/3">
-              <p>3반</p>
+            <NavLink
+              className="lnblink"
+              to="/행정/3"
+              onClick={() => {
+                onClicklnb("Aclass3");
+              }}
+            >
+              <p
+                className={clsx("lnbtext", {
+                  clickde_text: clickTextColor === "Aclass3",
+                })}
+              >
+                3반
+              </p>
             </NavLink>
           </li>
         </ul>

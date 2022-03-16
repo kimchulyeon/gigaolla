@@ -1,22 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import cx from "clsx";
+import clsx from "clsx";
 
 import checklist from "../image/checklist_gray.svg";
 import checklistColor from "../image/checklist_white.svg";
 
-function Checklist({
-  fixTextColor,
-  onMouseOver,
-  onMouseOut,
-  hoveredIcon,
-  navicon,
-}) {
+function Checklist({ fixTextColor, onMouseOver, onMouseOut, hoveredIcon }) {
   return (
     <NavLink
       to="/"
       className="link"
-      onClick={cx("link checklist", {
+      onClick={clsx("link checklist", {
         listtextcolor: fixTextColor === "checklistmenu",
       })} // <NavigationCalendar navicon={navicon} />
       onMouseOver={() => onMouseOver("checklistmenucolor")}
@@ -30,7 +24,9 @@ function Checklist({
             : checklist
         }
         alt="checklist"
-        className={navicon}
+        className={clsx("navicon", {
+          checklisticon: hoveredIcon === "checklistmenucolor",
+        })}
       />
       <span
         className={

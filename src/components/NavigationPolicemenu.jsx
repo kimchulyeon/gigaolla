@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import cx from "clsx";
+import clsx from "clsx";
 
 import police from "../image/police_gray.svg";
 import policeColor from "../image/police_color.svg";
@@ -8,7 +8,6 @@ import policeColor from "../image/police_color.svg";
 function NavigationPolicemenu({
   fixBackground,
   onClickShowFix,
-  navicon,
   onClickSection,
   onMouseOver,
   onMouseOut,
@@ -21,7 +20,7 @@ function NavigationPolicemenu({
     <>
       <NavLink
         to="/경찰"
-        className={cx("link police", {
+        className={clsx("link police", {
           activeBg: fixBackground === "policemenu",
         })}
         onClick={() => {
@@ -42,35 +41,33 @@ function NavigationPolicemenu({
               : police
           }
           alt="menu"
-          className={navicon}
+          className={clsx("navicon", {
+            policeicon: hoveredIcon === "policemenucolor",
+          })}
         />
         <span className="policetext">경찰직</span>
       </NavLink>
 
       <div
-        className={cx("lnbcontainer police", {
+        className={clsx("lnbcontainer police", {
           hidden: openedSection !== "police",
         })}
       >
         <ul className="lnb">
           <li>
             <NavLink
-              className={
-                cx("link police", {
-                  activeBg: fixBackground === "policemenu",
-                })
-                  ? "lnblink fontWhite"
-                  : "lnblink"
-              }
+              className="lnblink"
               to="/경찰"
+              onClick={() => {
+                onClicklnb("Pclass0");
+              }}
             >
               <p
-                className={cx("lnbtext", {
-                  clickde_text: fixBackground === "policemenu",
+                className={clsx("lnbtext", {
+                  clickde_text:
+                    fixBackground === "policemenu" ||
+                    clickTextColor === "Pclass0",
                 })}
-                onClicklnb={() => {
-                  onClicklnb("Pclass0");
-                }}
               >
                 전체
               </p>
@@ -80,12 +77,12 @@ function NavigationPolicemenu({
             <NavLink
               className="lnblink"
               to="/경찰/1"
-              onClicklnb={() => {
+              onClick={() => {
                 onClicklnb("Pclass1");
               }}
             >
               <p
-                className={cx("lnbtext", {
+                className={clsx("lnbtext", {
                   clickde_text: clickTextColor === "Pclass1",
                 })}
               >
@@ -94,18 +91,54 @@ function NavigationPolicemenu({
             </NavLink>
           </li>
           <li>
-            <NavLink className="lnblink" to="/경찰/2">
-              <p>2반</p>
+            <NavLink
+              className="lnblink"
+              to="/경찰/2"
+              onClick={() => {
+                onClicklnb("Pclass2");
+              }}
+            >
+              <p
+                className={clsx("lnbtext", {
+                  clickde_text: clickTextColor === "Pclass2",
+                })}
+              >
+                2반
+              </p>
             </NavLink>
           </li>
           <li>
-            <NavLink className="lnblink" to="/경찰/3">
-              <p>3반</p>
+            <NavLink
+              className="lnblink"
+              to="/경찰/3"
+              onClick={() => {
+                onClicklnb("Pclass3");
+              }}
+            >
+              <p
+                className={clsx("lnbtext", {
+                  clickde_text: clickTextColor === "Pclass3",
+                })}
+              >
+                3반
+              </p>
             </NavLink>
           </li>
           <li>
-            <NavLink className="lnblink" to="/경찰/5">
-              <p>5반</p>
+            <NavLink
+              className="lnblink"
+              to="/경찰/5"
+              onClick={() => {
+                onClicklnb("Pclass5");
+              }}
+            >
+              <p
+                className={clsx("lnbtext", {
+                  clickde_text: clickTextColor === "Pclass5",
+                })}
+              >
+                5반
+              </p>
             </NavLink>
           </li>
         </ul>
