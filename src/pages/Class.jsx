@@ -11,6 +11,21 @@ import DistributionChartTab from "../components/distribution_chart/DistributionC
 import SortBySubjectWrap from "../components/distribution_chart/SortBySubjectWrap";
 import { useParams } from "react-router-dom";
 
+// let subjectColor
+//   switch (subject) {
+//     case '경찰':
+//       subjectColor = '#21468d'
+//       break
+//     case '소방':
+//       subjectColor = '#fd4f3a'
+//       break
+//     case '행정':
+//       subjectColor = '#257e0e'
+//       break
+//     default:
+//       subjectColor = '#5d5fef'
+//   }
+
 const Class = () => {
   // 점수대별 인원 전체 / 과목별 버튼
   const [distributionTotal, setDistributionTotal] = useState(true);
@@ -30,7 +45,8 @@ const Class = () => {
     width: 82.81em;
     height: 5em;
     margin: 7.5em auto 0;
-    background: ${(props) => props.subjectColor};
+    /* background: ${(props) => props.subjectColor}; */
+    background-color: #21468d;
     border-radius: 16px;
   `;
   // MessageText 가운데 정렬을 위한 wrap
@@ -78,26 +94,27 @@ const Class = () => {
     display: flex;
   `;
 
-  const { subject } = useParams();
-  // 상단 공지 색깔 변경
-  let subjectColor;
-  switch (subject) {
-    case "경찰":
-      subjectColor = "#21468d";
-      break;
-    case "소방":
-      subjectColor = "#fd4f3a";
-      break;
-    case "행정":
-      subjectColor = "#257e0e";
-      break;
-  }
+  // const { subject } = useParams();
+  // // 상단 공지 색깔 변경
+  // let subjectColor;
+  // switch (subject) {
+  //   case "경찰":
+  //     subjectColor = "#21468d";
+  //     break;
+  //   case "소방":
+  //     subjectColor = "#fd4f3a";
+  //     break;
+  //   case "행정":
+  //     subjectColor = "#257e0e";
+  //     break;
+  // }
 
   return (
     <Background>
       <Navigation />
       <Cont>
-        <MessageCont subjectColor={subjectColor}>
+        {/* <MessageCont subjectColor={subjectColor}> */}
+        <MessageCont>
           <Message>
             <MessageText>
               경찰직, 목표 점수 달성도가 90%가 넘은 학생은 N명이며 저번 시험

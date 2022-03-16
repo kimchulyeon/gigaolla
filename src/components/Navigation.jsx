@@ -2,30 +2,24 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import NavigationCalender from "../components/NavigationCalendar";
+import NavigationPolicemenu from "../components/NavigationPolicemenu";
+import NavigationFiremenu from "../components/NavigationFiremenu";
+import NavigationAdminmenu from "../components/NavigationAdminmenu";
+import NavigationChecklist from "../components/NavigationChecklist";
 // icon link
 import logo from "../image/ollalogo.svg";
 import menu from "../image/menu_gray.svg";
 import menuColor from "../image/menu_color.svg";
-import police from "../image/police_gray.svg";
-import policeColor from "../image/police_color.svg";
-import fire from "../image/fire_gray.svg";
-import fireColor from "../image/fire_color.svg";
-import admin from "../image/admin_gray.svg";
-import adminColor from "../image/admin_color.svg";
-import checklist from "../image/checklist_gray.svg";
-import checklistColor from "../image/checklist_white.svg";
 import cx from "clsx";
 
-// 서브 네비게이션
-// (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
 function Navigation() {
+  // 서브 네비게이션 (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
+  //직렬별 lnb menu className = "hidden" (display="none")
+  // clsx classnames
   const [openedSection, setOpenedSetion] = useState("");
   const onClickSection = (job) => {
     setOpenedSetion(job);
   };
-  //직렬별 lnb menu className = "hidden" (display="none")
-  // clsx classnames
-  // npm i clsx
   if (openedSection === "police") {
   } else if (openedSection === "fire") {
   } else if (openedSection === "admin") {
@@ -39,21 +33,11 @@ function Navigation() {
     setFixBackground(kategorie);
     setFixTextColor(kategorie);
   };
-  let policemenu = "link police";
-  let firemenu = "link fire";
-  let adminmenu = "link admin";
-  let allmenu = "link allmenu";
-  let checklistmenu = "link checklist";
   if (fixBackground === "allmenu") {
-    allmenu += " activeBg";
   } else if (fixBackground === "policemenu") {
-    policemenu += " activeBg";
   } else if (fixBackground === "firemenu") {
-    firemenu += " activeBg";
   } else if (fixBackground === "adminmenu") {
-    adminmenu += " activeBg";
   } else if (fixTextColor === "checklistmenu") {
-    checklistmenu += " listtextcolor";
   }
 
   // icon color hover
@@ -78,14 +62,15 @@ function Navigation() {
   }
 
   // lnb menu click시 text color 변경
-  // const [clickTextColor, setClickTextColor] = useState("");
-  // const onClicklnb = (textColor) => {
-  //   setClickTextColor(textColor);
-  // };
-  // let lnbtextColor = "lnbtext";
-  // if (clickTextColor === "classnumber") {
-  //   lnbtextColor += " clickde_text";
-  // }
+  const [clickTextColor, setClickTextColor] = useState("");
+  const onClicklnb = (classtext) => {
+    setClickTextColor(classtext);
+  };
+  if (clickTextColor === "Pclass0") {
+  } else if (clickTextColor === "Pclass1") {
+  } else if (clickTextColor === "Pclass2") {
+  } else if (clickTextColor === "Pclass3") {
+  }
 
   return (
     <div>
@@ -100,7 +85,9 @@ function Navigation() {
               <li className="gnb">
                 <NavLink
                   to="/"
-                  className={allmenu}
+                  className={cx("link allmenu", {
+                    activeBg: fixBackground === "allmenu",
+                  })}
                   onClick={() => {
                     onClickShowFix("allmenu");
                   }}
@@ -127,229 +114,56 @@ function Navigation() {
               {/* 전체개요 끝 */}
               {/* 경찰직렬 메뉴 */}
               <li className="gnb">
-                <NavLink
-                  to="/경찰"
-                  className={policemenu}
-                  onClick={() => {
-                    onClickSection("police");
-                    onClickShowFix("policemenu");
-                  }}
-                  onMouseOver={() => {
-                    onMouseOver("policemenucolor");
-                  }}
-                  onMouseOut={() => {
-                    onMouseOut("policemenucolor");
-                  }}
-                >
-                  <img
-                    src={
-                      fixBackground === "policemenu" ||
-                      hoveredIcon === "policemenucolor"
-                        ? policeColor
-                        : police
-                    }
-                    alt="menu"
-                    className={navicon}
-                  />
-                  <span className="policetext">경찰직</span>
-                </NavLink>
-                {/* 경찰 lnb */}
-                <div
-                  className={cx("lnbcontainer police", {
-                    hidden: openedSection !== "police",
-                  })}
-                >
-                  <ul className="lnb">
-                    <li>
-                      <NavLink
-                        className={policemenu ? "lnblink fontWhite" : "lnblink"}
-                        to="/경찰"
-                      >
-                        <p>전체</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/1">
-                        <p>1반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/2">
-                        <p>2반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/3">
-                        <p>3반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/5">
-                        <p>5반</p>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-                {/* 경찰 lnb 끝 */}
+                <NavigationPolicemenu
+                  fixBackground={fixBackground}
+                  onClickShowFix={onClickShowFix}
+                  navicon={navicon}
+                  onClickSection={onClickSection}
+                  onMouseOver={onMouseOver}
+                  onMouseOut={onMouseOut}
+                  hoveredIcon={hoveredIcon}
+                  openedSection={openedSection}
+                  onClicklnb={onClicklnb}
+                  clickTextColor={clickTextColor}
+                />
               </li>
-              {/* 경찰직렬 메뉴끝 */}
               {/* 소방직렬 메뉴 */}
               <li className="gnb">
-                <NavLink
-                  to="/소방"
-                  className={firemenu}
-                  onClick={() => {
-                    onClickSection("fire");
-                    onClickShowFix("firemenu");
-                  }}
-                  onMouseOver={() => {
-                    onMouseOver("firemenucolor");
-                  }}
-                  onMouseOut={() => {
-                    onMouseOut("firemenucolor");
-                  }}
-                >
-                  <img
-                    src={
-                      fixBackground === "firemenu" ||
-                      hoveredIcon === "firemenucolor"
-                        ? fireColor
-                        : fire
-                    }
-                    alt="menu"
-                    className={navicon}
-                  />
-                  <span className="firetext">소방직</span>
-                </NavLink>
-                {/* 소방 lnb */}
-                <div
-                  className={cx("lnbcontainer fire", {
-                    hidden: openedSection !== "fire",
-                  })}
-                >
-                  <ul className="lnb">
-                    <li>
-                      <NavLink
-                        className={firemenu ? "lnblink fontWhite" : "lnblink "}
-                        to="/소방"
-                      >
-                        <p>전체</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/소방/1">
-                        <p>1반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/소방/2">
-                        <p>2반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/소방/3">
-                        <p>3반</p>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-                {/* 소방 lnb 끝 */}
+                <NavigationFiremenu
+                  fixBackground={fixBackground}
+                  onClickShowFix={onClickShowFix}
+                  navicon={navicon}
+                  onClickSection={onClickSection}
+                  onMouseOver={onMouseOver}
+                  onMouseOut={onMouseOut}
+                  hoveredIcon={hoveredIcon}
+                  openedSection={openedSection}
+                />
               </li>
-              {/* 소방직렬 메뉴끔 */}
-              {/* 행정직렬 메뉴끔 */}
+              {/* 행정직렬 메뉴 */}
               <li className="gnb">
-                <NavLink
-                  to="/행정"
-                  className={adminmenu}
-                  onClick={() => {
-                    onClickSection("admin");
-                    onClickShowFix("adminmenu");
-                  }}
-                  onMouseOver={() => {
-                    onMouseOver("adminmenucolor");
-                  }}
-                  onMouseOut={() => {
-                    onMouseOut("adminmenucolor");
-                  }}
-                >
-                  <img
-                    src={
-                      fixBackground === "adminmenu" ||
-                      hoveredIcon === "adminmenucolor"
-                        ? adminColor
-                        : admin
-                    }
-                    alt="menu"
-                    className={navicon}
-                  />
-                  <span className="admintext">행정직</span>
-                </NavLink>
-                {/* 행정 lnb */}
-                <div
-                  className={cx("lnbcontainer admin", {
-                    hidden: openedSection !== "admin",
-                  })}
-                >
-                  <ul className="lnb">
-                    <li>
-                      <NavLink
-                        className={adminmenu ? "lnblink fontWhite" : "lnblink "}
-                        to="/행정"
-                      >
-                        <p>전체</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/행정/1">
-                        <p>1반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/행정/2">
-                        <p>2반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/행정/3">
-                        <p>3반</p>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-                {/* 행정 lnb 끝 */}
+                <NavigationAdminmenu
+                  fixBackground={fixBackground}
+                  onClickShowFix={onClickShowFix}
+                  navicon={navicon}
+                  onClickSection={onClickSection}
+                  onMouseOver={onMouseOver}
+                  onMouseOut={onMouseOut}
+                  hoveredIcon={hoveredIcon}
+                  openedSection={openedSection}
+                />
               </li>
-              {/* 행정직렬 메뉴끔 */}
               <MidLine />
             </ul>
             {/* 일정관리 */}
             <div className="checklistContainer">
-              <NavLink
-                to="/"
-                className="link"
-                onClick={checklistmenu} // <NavigationCalendar navicon={navicon} />
-                onMouseOver={() => onMouseOver("checklistmenucolor")}
-                onMouseOut={() => onMouseOut("checklistmenucolor")}
-              >
-                <img
-                  src={
-                    fixTextColor === "checklistmenu" ||
-                    hoveredIcon === "checklistmenucolor"
-                      ? checklistColor
-                      : checklist
-                  }
-                  alt="checklist"
-                  className={navicon}
-                />
-                <span
-                  className={
-                    fixTextColor === "checklistmenu"
-                      ? "checklistText white"
-                      : "checklistText"
-                  }
-                >
-                  일정관리
-                </span>
-              </NavLink>
+              <NavigationChecklist
+                fixTextColor={fixTextColor}
+                onMouseOver={onMouseOver}
+                onMouseOut={onMouseOut}
+                hoveredIcon={hoveredIcon}
+                navicon={navicon}
+              />
               <NavigationCalender />
             </div>
           </div>
@@ -502,9 +316,6 @@ const StyledNavigation = styled.div`
           .admintext {
             color: #257e0e;
           }
-          .lnb:first-child {
-            color: #fff;
-          }
         }
       }
       // 서브 메뉴 css
@@ -540,22 +351,18 @@ const StyledNavigation = styled.div`
               height: 80px;
               line-height: 40px;
               text-align: center;
-              .clickde_text {
-                color: #fff;
-              }
             }
           }
-          // 직렬 선택시 직렬 서브메뉴 '전체' font color 변경
-          .fontWhite {
-            color: #fff;
-          }
+        }
+        // 직렬 선택시 직렬 서브메뉴 '전체' font color 변경
+        .clickde_text {
+          color: #fff;
         }
         &.hidden {
           display: none;
         }
       }
     }
-
     .checklistContainer {
       width: 285px;
       height: 80px;
@@ -595,6 +402,6 @@ const StyledNavigation = styled.div`
 const MidLine = styled.div`
   width: 220px;
   height: 1px;
-  margin: 10px 47px 30px 18px;
+  margin: 10px 47px 10px 18px;
   border-top: 1px solid #c4c4c4;
 `;

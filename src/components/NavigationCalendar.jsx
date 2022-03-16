@@ -35,8 +35,8 @@ const NavigationCalender = styled.div`
   .calendarcontiner {
     position: relative;
     display: block;
-    top: 28px;
-    left: 19px;
+    top: 10px;
+    left: 15px;
     border-radius: solid 1px red;
     .datepicker {
       width: 220px;
@@ -53,7 +53,7 @@ const NavigationCalender = styled.div`
     img {
       position: absolute;
       top: 14px;
-      left: 10px;
+      left: 12px;
       z-index: 1;
     }
     .todolist {
