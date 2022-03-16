@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import axios from "axios";
 import styled from "styled-components";
 import {
@@ -15,6 +16,15 @@ import {
 import { Bar, Line } from "react-chartjs-2";
 import { useParams } from "react-router";
 
+const Cont = styled.div`
+  width: 90%;
+  height: 23em;
+  margin: 3em auto;
+  canvas {
+    max-height: 100% !important;
+  }
+`;
+
 const AttendChart = ({
   chartView,
   startDate,
@@ -28,15 +38,6 @@ const AttendChart = ({
   const [labels, setLabels] = useState([]);
   const [barPercentage, setBarPercentage] = useState(0.5);
   const { subject, number } = useParams();
-
-  const Cont = styled.div`
-    width: 90%;
-    height: 23em;
-    margin: 3em auto;
-    canvas {
-      max-height: 100% !important;
-    }
-  `;
 
   const getProgressYearMonth = () => {
     const total_months =
@@ -166,16 +167,26 @@ const AttendChart = ({
         attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
       compareAttend = compareAttend.toFixed(1);
       compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
-      setCompareAttendPercent(compareAttend);
-      setTotalStudentArr(totalStudentData);
-      setTestedStudentArr(testedStudentData);
-      setLabels(chartLabelData);
-      setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+      unstable_batchedUpdates(() => {
+        setCompareAttendPercent(compareAttend);
+        setTotalStudentArr(totalStudentData);
+        setTestedStudentArr(testedStudentData);
+        setLabels(chartLabelData);
+        setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+      });
       return;
     };
 
     fetchData();
-  }, [subject, number, chartView]);
+  }, [
+    subject,
+    number,
+    chartView,
+    startDate,
+    endDate,
+    compareStartDate,
+    compareEndDate,
+  ]);
 
   ChartJS.register(
     CategoryScale,

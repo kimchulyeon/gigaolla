@@ -84,6 +84,7 @@ const getStudentData = async (
   month = getYearMonth().nowMonth
 ) => {
   month = month < 10 ? `0${month}` : month;
+  const URL = "https://kimcodi.kr/external_api/dashboard/";
   let tatalpolice = 0;
   let tatalfire = 0;
   let tataladmin = 0;
@@ -91,12 +92,12 @@ const getStudentData = async (
   let testfire = 0;
   let testadmin = 0;
 
-  const tatalPoliceUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
-  const tatalFireUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
-  const tatalAdminUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=행정`;
-  const testPoliceUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
-  const testFireUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
-  const testAdminUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=행정`;
+  const tatalPoliceUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
+  const tatalFireUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
+  const tatalAdminUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=행정`;
+  const testPoliceUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
+  const testFireUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
+  const testAdminUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=행정`;
 
   await axios.get(tatalPoliceUrl).then((res) => {
     if (res.data.code === "001") {
@@ -143,6 +144,33 @@ const getStudentData = async (
     }
   });
 
+  // const arrUrl = [
+  //   tatalPoliceUrl,
+  //   tatalFireUrl,
+  //   tatalAdminUrl,
+  //   testPoliceUrl,
+  //   testFireUrl,
+  //   testAdminUrl,
+  // ];
+  // const arrCount = [
+  //   tatalpolice,
+  //   tatalfire,
+  //   tataladmin,
+  //   testpolice,
+  //   testfire,
+  //   testadmin,
+  // ];
+
+  // arrUrl.forEach((Url, index) =>
+  //   axios.get(Url).then((res) => {
+  //     if (res.data.code === "001") {
+  //       arrCount[index] = res.data.result[0].STUDENT_COUNT;
+  //     } else {
+  //       return;
+  //     }
+  //   })
+  // );
+
   //응시율
   let attendPolice = ((testpolice / tatalpolice) * 100).toFixed(1);
   attendPolice = attendPolice === "NaN" ? 0 : attendPolice;
@@ -155,8 +183,7 @@ const getStudentData = async (
 };
 
 const HomeAttendChart = () => {
-  const [loading, setLoading] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const ym = getYearMonth().YearMonth;
   const labels = ym.map((label) =>
     label.month < 10 ? `0${label.month}` : label.month
@@ -180,37 +207,34 @@ const HomeAttendChart = () => {
       adminData.push(res.attendAdmin)
     )
   );
-  return (
-    <Line
-      data={{
-        labels,
-        datasets: [
-          {
-            label: "경찰직",
-            data: policeData,
-            borderColor: "#FBA869",
-            backgroundColor: "#FBA869",
-            pointBorderWidth: 4,
-          },
-          {
-            label: "소방직",
-            data: fireData,
-            borderColor: "#42C366",
-            backgroundColor: "#42C366",
-            pointBorderWidth: 4,
-          },
-          {
-            label: "행정직",
-            data: adminData,
-            borderColor: "#70A6E8",
-            backgroundColor: "#70A6E8",
-            pointBorderWidth: 4,
-          },
-        ],
-      }}
-      options={options}
-    />
-  );
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: "경찰직",
+        data: policeData,
+        borderColor: "#21468d",
+        backgroundColor: "#21468d",
+        pointBorderWidth: 4,
+      },
+      {
+        label: "소방직",
+        data: fireData,
+        borderColor: "#fd4f3a",
+        backgroundColor: "#fd4f3a",
+        pointBorderWidth: 4,
+      },
+      {
+        label: "행정직",
+        data: adminData,
+        borderColor: "#257e0e",
+        backgroundColor: "#257e0e",
+        pointBorderWidth: 4,
+      },
+    ],
+  };
+
+  return <Line data={chartData} options={options} />;
 };
 
 export default HomeAttendChart;

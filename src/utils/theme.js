@@ -1,4 +1,5 @@
 export const defaultTheme = {
+  mainBackground: '#fff',
   backgroundColor: '#fff',
   chartBackgroundColor: '#fff',
   textColor: '#000',
