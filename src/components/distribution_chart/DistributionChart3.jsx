@@ -11,54 +11,18 @@ import {
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { isDarkAtom } from '../../utils/atoms'
 import { getLastMonth } from '../../utils/getLastMonth'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-// OPTION
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-      align: 'end',
-      labels: {
-        padding: 10,
-        usePointStyle: true,
-        font: {
-          size: 15,
-          padding: 10,
-        },
-      },
-    },
-    tooltop: {
-      backgroundColor: '#5D5FEF',
-    },
-  },
-  scales: {
-    x: {
-      scaleLabel: {
-        display: true,
-      },
-      grid: {
-        display: false,
-        drawBorder: false,
-      },
-    },
-    y: {
-      grid: {
-        display: false,
-        drawBorder: false,
-      },
-    },
-  },
-}
 
 // LABEL
 const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
 
 //컴포..
 const DistributionChart = () => {
+  const isDark = useRecoilValue(isDarkAtom)
   const params = useParams()
 
   const SERIES = params.subject
@@ -160,6 +124,59 @@ const DistributionChart = () => {
       }
     })()
   }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
+  // OPTION
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        align: 'end',
+        labels: {
+          padding: 15,
+          usePointStyle: true,
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+            padding: 10,
+            // color: 'red',
+          },
+        },
+      },
+      tooltop: {
+        backgroundColor: '#5D5FEF',
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+          },
+        },
+        scaleLabel: {
+          display: true,
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+      },
+      y: {
+        ticks: {
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+          },
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+      },
+    },
+  }
 
   //리턴..
   return (

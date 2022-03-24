@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,7 +14,6 @@ import qs from "qs";
 
 const URL = "https://kimcodi.kr/external_api/dashboard/";
 const TOTAL_Url = `${URL}numberOfTotalStudentsByMonth.php`;
-const TEST_Url = `${URL}numberOfTestedStudentsByMonth.php`;
 
 ChartJS.register(LineElement);
 
@@ -43,7 +41,7 @@ const getMonth = () => {
 };
 getMonth();
 
-const HomeAttendChart = () => {
+const HomeAttendChart2 = () => {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -100,21 +98,13 @@ const HomeAttendChart = () => {
     (async () => {
       const subjectData = await Promise.all(
         monthArr.map(async (i) => {
-          const resTotal = await fetch(
+          const res = await fetch(
             `${TOTAL_Url}?${qs.stringify({
               yyyy: i.year,
               mm: i.month,
             })}&class=경찰`
           );
-          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT;
-          const resttest = await fetch(
-            `${TEST_Url}?${qs.stringify({
-              yyyy: i.year,
-              mm: i.month,
-            })}&class=경찰`
-          );
-          const testData = (await resttest.json()).result[0].STUDENT_COUNT;
-          return Math.round((testData / totalData) * 100);
+          return Math.round((await res.json()).result[0].STUDENT_COUNT);
         })
       );
       setPoliceData(subjectData);
@@ -125,21 +115,13 @@ const HomeAttendChart = () => {
     (async () => {
       const subjectData = await Promise.all(
         monthArr.map(async (i) => {
-          const resTotal = await fetch(
+          const res = await fetch(
             `${TOTAL_Url}?${qs.stringify({
               yyyy: i.year,
               mm: i.month,
             })}&class=소방`
           );
-          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT;
-          const resttest = await fetch(
-            `${TEST_Url}?${qs.stringify({
-              yyyy: i.year,
-              mm: i.month,
-            })}&class=소방`
-          );
-          const testData = (await resttest.json()).result[0].STUDENT_COUNT;
-          return Math.round((testData / totalData) * 100);
+          return Math.round((await res.json()).result[0].STUDENT_COUNT);
         })
       );
       setFireData(subjectData);
@@ -150,21 +132,13 @@ const HomeAttendChart = () => {
     (async () => {
       const subjectData = await Promise.all(
         monthArr.map(async (i) => {
-          const resTotal = await fetch(
+          const res = await fetch(
             `${TOTAL_Url}?${qs.stringify({
               yyyy: i.year,
               mm: i.month,
             })}&class=행정`
           );
-          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT;
-          const resttest = await fetch(
-            `${TEST_Url}?${qs.stringify({
-              yyyy: i.year,
-              mm: i.month,
-            })}&class=행정`
-          );
-          const testData = (await resttest.json()).result[0].STUDENT_COUNT;
-          return Math.round((testData / totalData) * 100);
+          return Math.round((await res.json()).result[0].STUDENT_COUNT);
         })
       );
       setAdminData(subjectData);
@@ -199,4 +173,4 @@ const HomeAttendChart = () => {
   };
   return <Line data={chartData} options={options} />;
 };
-export default HomeAttendChart;
+export default HomeAttendChart2;

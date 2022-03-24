@@ -1,3 +1,4 @@
+import { red } from '@mui/material/colors'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,50 +12,13 @@ import {
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { isDarkAtom } from '../../utils/atoms'
 import { getLastMonth } from '../../utils/getLastMonth'
 
 // var qs = require('qs')
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-// OPTION
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-      align: 'end',
-      labels: {
-        padding: 10,
-        usePointStyle: true,
-        font: {
-          size: 15,
-          padding: 10,
-        },
-      },
-    },
-    tooltop: {
-      backgroundColor: '#5D5FEF',
-    },
-  },
-  scales: {
-    x: {
-      scaleLabel: {
-        display: true,
-      },
-      grid: {
-        display: false,
-        drawBorder: false,
-      },
-    },
-    y: {
-      grid: {
-        display: false,
-        drawBorder: false,
-      },
-    },
-  },
-}
 
 // LABEL
 const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
@@ -68,6 +32,7 @@ const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
 //컴포..
 const DistributionChart = ({ distributionTotal }) => {
   const params = useParams()
+  const isDark = useRecoilValue(isDarkAtom)
 
   const SERIES = params.subject // 경찰, 소방, 행정
   const CLASS = params.number // 1, 2, ...
@@ -75,11 +40,63 @@ const DistributionChart = ({ distributionTotal }) => {
   // const COLOR = ['#FBA869', '#42C366', '#70A6E8', '#FFDB5C', '#A293FF']
 
   const { thisYear, lastMonth } = getLastMonth()
-
+  console.log(typeof lastMonth)
   const [policeSubjectData, setPoliceSubjectData] = useState([])
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
   const [lawSubjectData, setLawSubjectData] = useState([])
 
+  // OPTION
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        align: 'end',
+        labels: {
+          padding: 15,
+          usePointStyle: true,
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+            padding: 10,
+            // color: 'red',
+          },
+        },
+      },
+      tooltop: {
+        backgroundColor: '#5D5FEF',
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+          },
+        },
+        scaleLabel: {
+          display: true,
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+      },
+      y: {
+        ticks: {
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+          },
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+      },
+    },
+  }
   // const [data, setData] = useState([])
 
   // useEffect(() => {
@@ -185,13 +202,6 @@ const DistributionChart = ({ distributionTotal }) => {
     <Line
       data={{
         labels,
-        // datasets: data.map((i) => ({
-        //   label: subjects.forEach((item) => item),
-        //   data: i.map((item) => item.COUNT),
-        //   borderColor: COLOR.slice(0, data.length + 1).map((item) => item),
-        //   backgroundColor: COLOR.slice(0, data.length + 1).map((item) => item),
-        //   pointBorderWidth: 4,
-        // })),
 
         datasets: [
           {

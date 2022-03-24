@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 const ListArea = styled.div`
@@ -14,7 +15,8 @@ const ListArea = styled.div`
   /* height: 90%; */
   margin-top: 30px;
   margin-left: 5em;
-  padding: 30px 0;
+  padding: 6px 0;
+  /* padding-bottom: 50px; */
 `
 
 const Header = styled.header`
@@ -81,39 +83,46 @@ const InfoContainer = styled.div`
 `
 
 const StudentDetail = ({ studentDetailInfo }) => {
+  const { number } = useParams()
+  console.log(number)
+
   return (
     <ListArea>
       <Header>
-        <div className="name">{studentDetailInfo.name}</div>
-        <div className="id">{studentDetailInfo.userId}</div>
+        <div className="name">{studentDetailInfo.회원명}</div>
+        <div className="id">{studentDetailInfo.회원아이디}</div>
         <div className="title">증감</div>
-        <div className="rate">{studentDetailInfo.rate}%</div>
+        <div className="rate">{studentDetailInfo.증감}%</div>
       </Header>
 
       <Content>
         <InfoContainer>
           <span>반</span>
-          <span>{studentDetailInfo.class}</span>
+          <span>{studentDetailInfo.배정반}</span>
         </InfoContainer>
         <InfoContainer>
           <span>순위</span>
-          <span>{studentDetailInfo.rank}</span>
+          {number ? (
+            <span>{studentDetailInfo.반별순위}</span>
+          ) : (
+            <span>{studentDetailInfo.전체순위}</span>
+          )}
         </InfoContainer>
         <InfoContainer>
           <span>점수</span>
-          <span>{studentDetailInfo.currentMonthScore}</span>
+          <span>{studentDetailInfo.당월점수}</span>
         </InfoContainer>
         <InfoContainer>
           <span>당월 목표</span>
-          <span>{studentDetailInfo.currentMonthGoal}</span>
+          <span>{studentDetailInfo.당월목표}</span>
         </InfoContainer>
         <InfoContainer>
           <span>달성도</span>
-          <span>{studentDetailInfo.achieve}</span>
+          <span>{studentDetailInfo.달성도}</span>
         </InfoContainer>
         <InfoContainer>
           <span>익월목표</span>
-          <span>{studentDetailInfo.nextMonthGoal}</span>
+          <span>{studentDetailInfo.익월목표}</span>
         </InfoContainer>
       </Content>
     </ListArea>

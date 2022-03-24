@@ -21,32 +21,33 @@ const OverviewCard = ({ Class, Color }) => {
     const URL = 'https://kimcodi.kr/external_api/dashboard/'
     let today = new Date()
     let year = today.getFullYear()
-    let lastMonth = today.getMonth()
-    let month = today.getMonth() + 1
-    const totalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${
-      month <= 9 ? '0' + month : month
-    }&class=${Class}`
-    const LastTotalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${
-      lastMonth <= 9 ? '0' + lastMonth : lastMonth
-    }&class=${Class}`
-    const attendedUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${
-      month <= 9 ? '0' + month : month
-    }&class=${Class}`
-    const LastAttendedUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${
-      lastMonth <= 9 ? '0' + lastMonth : lastMonth
-    }&class=${Class}`
-    const scoreUrl = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${
-      month <= 9 ? '0' + month : month
-    }&series=${Class}`
-    const lastScoreUrl = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${
-      lastMonth <= 9 ? '0' + lastMonth : lastMonth
-    }&series=${Class}`
-    const topScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${
-      month <= 9 ? '0' + month : month
-    }&toplow=top&per=10&series=${Class}`
-    const lowScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${
-      month <= 9 ? '0' + month : month
-    }&toplow=low&per=10&series=${Class}`
+    // let lastMonth =
+    //   today.getMonth() + 1 !== 0
+    //     ? today.getMonth() <= 9
+    //       ? "0" + today.getMonth()
+    //       : today.getMonth()
+    //     : 12;
+    // let month =
+    //   today.getMonth() + 1 <= 9
+    //     ? "0" + (today.getMonth() + 1)
+    //     : today.getMonth() + 1;
+    let lastMonth = '01'
+    let month = '02'
+
+    const totalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`
+    const LastTotalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${
+      lastMonth !== 12 ? year : year - 1
+    }&mm=${lastMonth}&class=${Class}`
+    const attendedUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`
+    const LastAttendedUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${
+      lastMonth !== 12 ? year : year - 1
+    }&mm=${lastMonth}&class=${Class}`
+    const scoreUrl = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}&series=${Class}`
+    const lastScoreUrl = `${URL}avgOfSeriesByMonth.php?%20yyyy=${
+      lastMonth !== 12 ? year : year - 1
+    }&mm=${lastMonth}&series=${Class}`
+    const topScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=top&per=10&series=${Class}`
+    const lowScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=low&per=10&series=${Class}`
 
     await Promise.all([
       axios.get(totalUrl).then((res) => {
@@ -110,7 +111,6 @@ const OverviewCard = ({ Class, Color }) => {
           return
         }
       }),
-      setLoading(true),
     ])
   }
   let totalMinusLast = Math.floor(parseInt(totalStudent) - parseInt(lastTotalStudent))
@@ -126,32 +126,17 @@ const OverviewCard = ({ Class, Color }) => {
         ? totalScore
         : TestIncrease
       : '0'
+  TestRate =
+    String(TestRate) !== 'NaN' ? (String(TestRate) === 'Infinity' ? attendStudent : TestRate) : '0'
 
   useEffect(() => {
     fetchData()
   }, [])
 
-  // const ContWrap = styled.div`
-  //   position: relative;
-  //   box-sizing: border-box;
-  //   width: 31.82%;
-  //   height: 0;
-  //   padding-bottom: 31.82%;
-  //   background: #fff;
-  //   border-radius: 25px;
-  //   box-shadow: 0px 17px 26px rgba(0, 0, 0, 0.06), 0px 2px 6.5px rgba(0, 0, 0, 0.04),
-  //     0px 0px 1.09208px rgba(0, 0, 0, 0.04);
-  //   @media screen and (max-width: 1712px) {
-  //     font-size: 0.9346vw;
-  //   }
-  // `
   const Cont = styled.div`
     padding: 1.56em;
     box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
-    @media screen and (max-width: 1712px) {
-      font-size: 0.9346vw;
-    }
   `
   const ClassName = styled.span`
     font-size: 2.13em;
@@ -244,7 +229,7 @@ const OverviewCard = ({ Class, Color }) => {
       content: '';
       width: 4em;
       height: 4em;
-      background: #fff;
+      background: ${(props) => props.theme.chartBackgroundColor};
       border-radius: 3em;
     }
   `
@@ -259,8 +244,10 @@ const OverviewCard = ({ Class, Color }) => {
   `
 
   const ScoreAllCont = styled.div`
+    position: absolute;
+    width: 87%;
     display: flex;
-    margin-top: 3.8em;
+    bottom: 3.25em;
     justify-content: space-between;
   `
   const ScoreCont = styled.div`
@@ -298,7 +285,7 @@ const OverviewCard = ({ Class, Color }) => {
     font-size: 0.75em;
     line-height: 1.33em;
     margin-top: 0.2em;
-    color: ${TestIncrease !== '' ? (TestIncrease > 0 ? '#2dce89' : '#fb4646') : '#000'};
+    color: ${TestMinusLast !== 0 ? (TestMinusLast > 0 ? '#2dce89' : '#fb4646') : '#000'};
   `
   return (
     <>

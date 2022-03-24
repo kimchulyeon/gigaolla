@@ -8,7 +8,7 @@ const Cont = styled.div`
   width: 100%;
   min-height: 100%;
   font-family: "Noto Sans KR", sans-serif;
-  background: #fff;
+  background: ${(props) => props.theme.chartBackgroundColor};
   border-radius: 25px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04),
     0px 0px 1px rgba(0, 0, 0, 0.04);
@@ -23,11 +23,13 @@ const Title = styled.span`
   font-weight: bold;
   font-size: 1.5em;
   line-height: 3.44rem;
-  color: #545454;
+  margin-bottom: 1.2em;
+  color: ${(props) => props.theme.chartTitleColor};
 `;
 // Chart Detail Wrap
 const DetailCont = styled.div`
   position: absolute;
+  top: 3em;
 `;
 // Chart Datail 증감율
 const DetailCount = styled.span`
@@ -42,6 +44,9 @@ const Detail = styled.span`
   line-height: 1.44rem;
   color: #8898aa;
 `;
+const InfoCont = styled.span`
+  color: ${(props) => props.theme.chartTitleColor};
+`;
 //컴포..
 const CardTemplate = ({
   Element,
@@ -55,7 +60,12 @@ const CardTemplate = ({
   compareStartDate,
   compareEndDate,
   Info,
+  filterSubject,
   setCompareAttendPercent,
+  filterClass,
+  setFilterClass,
+  total,
+  setTotal,
 }) => {
   // Card Template Wrap
 
@@ -66,7 +76,7 @@ const CardTemplate = ({
         <Title>{Name}</Title>
         <DetailCont>
           <DetailCount>{Count}</DetailCount>
-          {Info}
+          <InfoCont>{Info}</InfoCont>
           <Detail>
             {year}
             {month}
@@ -78,10 +88,15 @@ const CardTemplate = ({
         month={month}
         chartView={chartView}
         startDate={startDate}
+        filterSubject={filterSubject}
         endDate={endDate}
         compareStartDate={compareStartDate}
         compareEndDate={compareEndDate}
         setCompareAttendPercent={setCompareAttendPercent}
+        filterClass={filterClass}
+        setFilterClass={setFilterClass}
+        total={total}
+        setTotal={setTotal}
       />
     </Cont>
   );

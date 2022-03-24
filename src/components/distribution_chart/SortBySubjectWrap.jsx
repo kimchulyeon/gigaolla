@@ -14,7 +14,8 @@ const Cont = styled.div`
   background: #fff;
   border-radius: 25px;
   display: inline-flex;
-  justify-content: center;
+  /* justify-content: space-between; */
+  background-color: ${(props) => props.theme.mainBackground};
   /* grid-template-columns: repeat(3, 1fr); */
   /* justify-content: center;
   align-items: center; */
